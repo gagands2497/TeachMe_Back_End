@@ -9,6 +9,12 @@ app.use(express.json())
 app.use(bodyParser.json());
 
 
+app.get('/', (req, res) => {
+    res.status(200).json({
+        message: "Welcome to Teach me Backend"
+    })
+})
+
 app.use('/auth', auth_route)
 
 // error middleware
