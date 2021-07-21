@@ -9,7 +9,7 @@ app.use(express.json())
 app.use(bodyParser.json());
 
 
-app.use('/new_student', auth_route)
+app.use('/auth', auth_route)
 
 // error middleware
 app.use((error, req, res, next) => {
