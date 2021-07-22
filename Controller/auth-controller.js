@@ -3,6 +3,7 @@ const Teacher = require('../Models/Teacher')
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const sequalize = require('sequelize');
+const cookieParser = require('cookie-parser');
 
 
 module.exports.student_signup = (req, res, next) => {
@@ -91,6 +92,101 @@ module.exports.teacher_signup = (req, res, next) => {
             if (!err.statusCode) {
                 err.statusCode = 500;
                 // internal server error
+            }
+            next(err);
+        })
+}
+
+
+
+module.exports.student_login = (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const error = new Error("validation failed");
+        error.statusCode = 422;
+        error.data = errors.array();
+        throw error
+    }
+    const email = req.body.email_id;
+    const password = req.body.password;
+    Student.findOne({ where: { email_id: req.body.email_id } })
+        .then(user => {
+            if (!user) {
+                const e = new Error("User not found/Please Register first");
+                e.statusCode = 404;
+                throw e;
+            }
+
+            return bcrypt.compare(password, user.password);
+        }).then(isEqual => {
+            if (!isEqual) {
+                const e = new Error("Wrong password");
+                e.statusCode = 401;
+                throw e;
+            }
+
+            const t = jwt.sign({
+                email_id: email,
+            }, "secret_key", { expiresIn: '24h' });
+            // change the key later
+            const token = "Bearer " + t;
+            res.cookie('token', token, { maxAge: time, httpOnly: true });
+            res.status(201).json({
+                message: "Logged in succesfully"
+            })
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        })
+}
+
+
+
+
+module.exports.teacher_login = (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const error = new Error("validation failed");
+        error.statusCode = 422;
+        error.data = errors.array();
+        throw error
+    }
+    const email = req.body.email_id;
+    const password = req.body.password;
+    Teacher.findOne({ where: { email_id: req.body.email_id } })
+        .then(user => {
+            if (!user) {
+                const e = new Error("User not found/Please Register first");
+                e.statusCode = 404;
+                throw e;
+            }
+
+            return bcrypt.compare(password, user.password);
+        }).then(isEqual => {
+            if (!isEqual) {
+                const e = new Error("Wrong password");
+                e.statusCode = 401;
+                throw e;
+            }
+
+            const t = jwt.sign({
+                email_id: email,
+            }, "secret_key", { expiresIn: '24h' });
+            // change the key later
+            const token = "Bearer " + t;
+            res.cookie('token', token, { maxAge: time, httpOnly: true });
+            res.status(201).json({
+                message: "Logged in succesfully"
+            })
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
             }
             next(err);
         })

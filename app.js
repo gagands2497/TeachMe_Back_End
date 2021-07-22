@@ -4,6 +4,10 @@ const port = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
 const auth_route = require('./Routes/auth')
 const databaseINIT = require('./initDatabase');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+
+
 
 
 // Handling CORS 
@@ -24,17 +28,32 @@ app.use((req, res, next) => {
 
 app.use(express.json())
 app.use(bodyParser.json());
-
+app.use(cookieParser())
 
 app.get('/', (req, res) => {
+    // send the documentation
+    console.log(req.headers.authorization);
     res.status(200).json({
         message: "Welcome to Teach me Backend"
+    })
+})
+
+
+app.get('/login', (req, res) => {
+    console.log('Cookies: ', req.cookies)
+    let time = 24 * 60 * 60 * 1000;
+    
+    
+    res.status(200).json({
+        message: "Logged in"
     })
 })
 
 app.use('/auth', auth_route)
 
 // error middleware
+
+
 app.use((error, req, res, next) => {
     res.status(error.statusCode).json({
         error: error
