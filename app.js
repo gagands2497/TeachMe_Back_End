@@ -26,9 +26,10 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use(express.json())
+
 app.use(bodyParser.json());
-app.use(cookieParser())
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
     // send the documentation

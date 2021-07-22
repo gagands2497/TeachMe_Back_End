@@ -136,7 +136,7 @@ module.exports.student_login = (req, res, next) => {
                 const time = 24 * 60 * 60 * 1000;
                 res.cookie("Token", token, { maxAge: time, httpOnly: true });
                 res.status(201).json({
-                    message: "Login success"
+                    message: "Login Student success"
                 })
             }
         })
@@ -187,7 +187,7 @@ module.exports.teacher_login = (req, res, next) => {
                 const time = 24 * 60 * 60 * 1000;
                 res.cookie("Token", token, { maxAge: time, httpOnly: true });
                 res.status(201).json({
-                    message: "Login success"
+                    message: "Login Teacher success"
                 })
             }
         })

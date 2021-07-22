@@ -81,7 +81,7 @@ router.post('/teacher_signup',
 
 
 router.post('/student_login',
-
+        
     body('email_id')
         .trim()
         .isEmail()
