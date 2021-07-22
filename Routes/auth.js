@@ -51,12 +51,13 @@ router.post('/teacher_signup',
         })
     ,
     body('description')
-        .trim()
         .isLength({ min: 100 })
         .withMessage("Description should be min of 100 chars")
         .custom(val => {
-            if (val.length > 1000) {
-                return Promise.reject("Description must be max length 1000 chars");
+            if (val.length > 500) {
+                return Promise.reject("Description must be of less than 500 charachters");
+            } else {
+                return true;
             }
         })
     ,
