@@ -76,9 +76,30 @@ router.post('/teacher_signup',
 
 
 
-router.get('/', (req, res) => {
-    res.send("HYE");
-})
 
+router.post('/student_login',
+
+    body('email_id')
+        .trim()
+        .isEmail()
+        .withMessage("Not a valid Email"),
+    body('password')
+        .trim()
+        .isLength({ min: 8 })
+        .withMessage("Password must be of min lenght 8")
+    , authController.student_login);
+
+
+router.post('/teacher_login',
+
+    body('email_id')
+        .trim()
+        .isEmail()
+        .withMessage("Not a valid Email"),
+    body('password')
+        .trim()
+        .isLength({ min: 8 })
+        .withMessage("Password must be of min lenght 8")
+    , authController.teacher_login);
 
 module.exports = router;
