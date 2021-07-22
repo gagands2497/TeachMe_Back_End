@@ -4,11 +4,8 @@ const port = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
 const auth_route = require('./Routes/auth')
 const databaseINIT = require('./initDatabase');
-const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const teacherRoute = require('./Routes/teacher');
-
-
 
 // Handling CORS 
 
@@ -26,7 +23,7 @@ app.use((req, res, next) => {
     next();
 })
 
-
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -39,16 +36,6 @@ app.get('/', (req, res) => {
     })
 })
 
-
-app.get('/login', (req, res) => {
-    console.log('Cookies: ', req.cookies)
-    let time = 24 * 60 * 60 * 1000;
-
-
-    res.status(200).json({
-        message: "Logged in"
-    })
-})
 
 app.use('/auth', auth_route);
 app.use('/teacher', teacherRoute);
@@ -65,6 +52,7 @@ app.use((error, req, res, next) => {
     });
 
 })
+
 
 
 
