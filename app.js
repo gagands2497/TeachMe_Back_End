@@ -6,7 +6,7 @@ const auth_route = require('./Routes/auth')
 const databaseINIT = require('./initDatabase');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-
+const teacherRoute = require('./Routes/teacher');
 
 
 
@@ -50,7 +50,8 @@ app.get('/login', (req, res) => {
     })
 })
 
-app.use('/auth', auth_route)
+app.use('/auth', auth_route);
+app.use('/teacher', teacherRoute);
 
 // error middleware
 

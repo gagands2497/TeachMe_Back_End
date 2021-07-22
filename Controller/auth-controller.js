@@ -129,13 +129,12 @@ module.exports.student_login = (req, res, next) => {
                 error.statusCode = 401;
                 throw error;
             } else {
-                const t = jwt.sign({
-                    email_id: email
-                }, "secret_key");
-                const token = "Bearer " + t;
                 const time = 24 * 60 * 60 * 1000;
-                res.cookie("Token", token, { maxAge: time, httpOnly: true });
+                const token = jwt.sign({
+                    email_id: email
+                }, "secret_key", { expiresIn: time });
                 res.status(201).json({
+                    Acces_Token: token,
                     message: "Login Student success"
                 })
             }
@@ -180,13 +179,12 @@ module.exports.teacher_login = (req, res, next) => {
                 error.statusCode = 401;
                 throw error;
             } else {
-                const t = jwt.sign({
-                    email_id: email
-                }, "secret_key");
-                const token = "Bearer " + t;
                 const time = 24 * 60 * 60 * 1000;
-                res.cookie("Token", token, { maxAge: time, httpOnly: true });
+                const token = jwt.sign({
+                    email_id: email
+                }, "secret_key", { expiresIn: time });
                 res.status(201).json({
+                    Acces_Token: token,
                     message: "Login Teacher success"
                 })
             }
