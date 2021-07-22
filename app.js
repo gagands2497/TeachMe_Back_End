@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/auth', auth_route);
-// app.use('/teacher', teacherRoute);
+app.use('/teacher', teacherRoute);
 
 // error middleware
 
