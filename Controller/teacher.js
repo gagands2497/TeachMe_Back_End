@@ -1,6 +1,4 @@
 const Teacher = require('../Models/Teacher');
-const isAuth = require('../Middleware/is-auth');
-
 
 
 module.exports.teacher_personal_profile = (req, res, next) => {

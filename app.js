@@ -30,7 +30,6 @@ app.use(cookieParser());
 
 app.get('/', (req, res) => {
     // send the documentation
-    console.log(req.headers.authorization);
     res.status(200).json({
         message: "Welcome to Teach me Backend"
     })
