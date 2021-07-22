@@ -4,7 +4,7 @@ const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const sequalize = require('sequelize');
 const cookieParser = require('cookie-parser');
-
+const jwt = require('jsonwebtoken');
 
 module.exports.student_signup = (req, res, next) => {
     const errors = validationResult(req);
@@ -108,33 +108,37 @@ module.exports.student_login = (req, res, next) => {
         error.data = errors.array();
         throw error
     }
+    console.log(req.body);
     const email = req.body.email_id;
     const password = req.body.password;
-    Student.findOne({ where: { email_id: req.body.email_id } })
+    Student.findOne({ where: { email_id: email } })
         .then(user => {
+
             if (!user) {
-                const e = new Error("User not found/Please Register first");
-                e.statusCode = 404;
-                throw e;
+                const error = new Error("User not found Please register first");
+                error.statusCode = 404;
+                throw error;
             }
-
-            return bcrypt.compare(password, user.password);
-        }).then(isEqual => {
-            if (!isEqual) {
-                const e = new Error("Wrong password");
-                e.statusCode = 401;
-                throw e;
+            else {
+                return bcrypt.compare(password, user.password);
             }
-
-            const t = jwt.sign({
-                email_id: email,
-            }, "secret_key", { expiresIn: '24h' });
-            // change the key later
-            const token = "Bearer " + t;
-            res.cookie('token', token, { maxAge: time, httpOnly: true });
-            res.status(201).json({
-                message: "Logged in succesfully"
-            })
+        })
+        .then(same => {
+            if (!same) {
+                const error = new Error("Wrong password");
+                error.statusCode = 401;
+                throw error;
+            } else {
+                const t = jwt.sign({
+                    email_id: email
+                }, "secret_key");
+                const token = "Bearer " + t;
+                const time = 24 * 60 * 60 * 1000;
+                res.cookie("Token", token, { maxAge: time, httpOnly: true });
+                res.status(201).json({
+                    message: "Login success"
+                })
+            }
         })
         .catch(err => {
             if (!err.statusCode) {
@@ -143,7 +147,6 @@ module.exports.student_login = (req, res, next) => {
             next(err);
         })
 }
-
 
 
 
@@ -156,33 +159,37 @@ module.exports.teacher_login = (req, res, next) => {
         error.data = errors.array();
         throw error
     }
+    console.log(req.body);
     const email = req.body.email_id;
     const password = req.body.password;
-    Teacher.findOne({ where: { email_id: req.body.email_id } })
+    Teacher.findOne({ where: { email_id: email } })
         .then(user => {
+
             if (!user) {
-                const e = new Error("User not found/Please Register first");
-                e.statusCode = 404;
-                throw e;
+                const error = new Error("User not found Please register first");
+                error.statusCode = 404;
+                throw error;
             }
-
-            return bcrypt.compare(password, user.password);
-        }).then(isEqual => {
-            if (!isEqual) {
-                const e = new Error("Wrong password");
-                e.statusCode = 401;
-                throw e;
+            else {
+                return bcrypt.compare(password, user.password);
             }
-
-            const t = jwt.sign({
-                email_id: email,
-            }, "secret_key", { expiresIn: '24h' });
-            // change the key later
-            const token = "Bearer " + t;
-            res.cookie('token', token, { maxAge: time, httpOnly: true });
-            res.status(201).json({
-                message: "Logged in succesfully"
-            })
+        })
+        .then(same => {
+            if (!same) {
+                const error = new Error("Wrong password");
+                error.statusCode = 401;
+                throw error;
+            } else {
+                const t = jwt.sign({
+                    email_id: email
+                }, "secret_key");
+                const token = "Bearer " + t;
+                const time = 24 * 60 * 60 * 1000;
+                res.cookie("Token", token, { maxAge: time, httpOnly: true });
+                res.status(201).json({
+                    message: "Login success"
+                })
+            }
         })
         .catch(err => {
             if (!err.statusCode) {

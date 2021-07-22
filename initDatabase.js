@@ -4,9 +4,9 @@ const Teacher = require('./Models/Teacher');
 
 
 
-module.exports.init = (flag) => {
+module.exports.init = () => {
     // flag that force should be true or false
-    database.sync({ force: flag }).then(res => {
+    database.sync().then(res => {
         console.log(" required database created ");
     }).catch(err => {
         console.log(err.message);

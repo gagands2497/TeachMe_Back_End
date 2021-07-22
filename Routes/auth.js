@@ -8,6 +8,7 @@ const authController = require('../Controller/auth-controller');
 
 router.post('/student_signup',
     body('email_id')
+        .trim()
         .isEmail()
         .withMessage("Please Enter a valid Email")
         .custom(value => {
@@ -38,6 +39,7 @@ router.post('/student_signup',
 
 router.post('/teacher_signup',
     body('email_id')
+        .trim()
         .isEmail()
         .withMessage("Please Enter a valid Email")
         .custom(value => {

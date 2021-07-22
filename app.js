@@ -42,8 +42,8 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => {
     console.log('Cookies: ', req.cookies)
     let time = 24 * 60 * 60 * 1000;
-    
-    
+
+
     res.status(200).json({
         message: "Logged in"
     })
@@ -55,9 +55,11 @@ app.use('/auth', auth_route)
 
 
 app.use((error, req, res, next) => {
-    res.status(error.statusCode).json({
-        error: error
-    })
+    console.log(error);
+    const status = error.statusCode || 500;
+    const message = error.message;
+    res.status(status).json({ message: message });
+
 })
 
 
