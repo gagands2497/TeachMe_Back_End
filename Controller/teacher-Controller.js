@@ -13,6 +13,8 @@ module.exports.teacher_personal_profile = (req, res, next) => {
             if (!user) {
                 const error = new Error("user not found");
                 error.statusCode = 404;
+                error.data = error.array();
+                throw error;
             } else {
                 res.status(200).json({
                     userData : user
