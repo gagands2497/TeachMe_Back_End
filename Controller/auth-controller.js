@@ -117,7 +117,6 @@ module.exports.student_login = (req, res, next) => {
             if (!user) {
                 const error = new Error("User not found Please register first");
                 error.statusCode = 404;
-                error.data = error.array();
                 throw error;
             }
             else {
@@ -128,7 +127,6 @@ module.exports.student_login = (req, res, next) => {
             if (!same) {
                 const error = new Error("Wrong password");
                 error.statusCode = 401;
-                error.data = error.array();
                 throw error;
             } else {
                 const time = 24 * 60 * 60 * 1000;
@@ -169,7 +167,6 @@ module.exports.teacher_login = (req, res, next) => {
             if (!user) {
                 const error = new Error("User not found Please register first");
                 error.statusCode = 404;
-                error.data = error.array();
                 throw error;
             }
             else {
@@ -180,7 +177,6 @@ module.exports.teacher_login = (req, res, next) => {
             if (!same) {
                 const error = new Error("Wrong password");
                 error.statusCode = 401;
-                error.data = error.array();
                 throw error;
             } else {
                 const time = 24 * 60 * 60 * 1000;
