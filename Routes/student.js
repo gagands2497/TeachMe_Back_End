@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const studentController = require('../Controller/student-controller');
+const studentController = require('../Controller/student-Controller');
 const Middleware = require('../Middleware/Auth');
 
 router.get('/personal_profile', Middleware.isAuth, studentController.student_personal_profile);
