@@ -22,7 +22,7 @@ const Teacher = database.define('Teacher', {
     },
     ph_number: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     description: {
         type: Sequelize.STRING(1000),

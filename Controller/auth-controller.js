@@ -30,8 +30,8 @@ module.exports.student_signup = (req, res, next) => {
                 ph_number: ph_number
             }).then(resData => {
                 res.status(201).json({
-                    data: resData,
-                    message: "Student Registered"
+                    // data: resData,
+                    message: "Registered"
                 })
             }).catch(err => {
                 if (!err.statusCode) {
@@ -44,8 +44,12 @@ module.exports.student_signup = (req, res, next) => {
             if (!err.statusCode) {
 
                 err.statusCode = 500;
-                err.mesaage = "failed to hash the password"
                 // internal server error
+            }
+            if (!err.data) {
+                err.data = [{
+                    msg: "Internal Server Error"
+                }]
             }
             next(err);
         })
@@ -78,20 +82,28 @@ module.exports.teacher_signup = (req, res, next) => {
                 description: description
             }).then(resData => {
                 res.status(201).json({
-                    data: resData,
-                    message: "Teacher Registered"
+                    // data: resData,
+                    message: "Registered"
                 })
             }).catch(err => {
                 if (!err.statusCode) {
                     err.statusCode = 500;
                     // internal server error
                 }
+                error.data = [{
+                    msg: "Internal Server Error"
+                }]
                 next(err);
             })
         }).catch(err => {
             if (!err.statusCode) {
                 err.statusCode = 500;
                 // internal server error
+            }
+            if (!err.data) {
+                err.data = [{
+                    msg: "Internal Server Error"
+                }]
             }
             next(err);
         })
@@ -117,6 +129,9 @@ module.exports.student_login = (req, res, next) => {
             if (!user) {
                 const error = new Error("User not found Please register first");
                 error.statusCode = 404;
+                error.data = [{
+                    msg: "User not found Please register first",
+                }];
                 throw error;
             }
             else {
@@ -127,14 +142,18 @@ module.exports.student_login = (req, res, next) => {
             if (!same) {
                 const error = new Error("Wrong password");
                 error.statusCode = 401;
+                error.data = [{
+                    msg: "Wrong Password"
+                }]
                 throw error;
             } else {
                 const time = 24 * 60 * 60 * 1000;
                 const token = jwt.sign({
-                    email_id: email
+                    email_id: email,
+                    userType:"student"
                 }, "secret_key", { expiresIn: time });
                 res.status(201).json({
-                    Acces_Token: token,
+                    Access_Token: token,
                     message: "Login Student success"
                 })
             }
@@ -142,6 +161,11 @@ module.exports.student_login = (req, res, next) => {
         .catch(err => {
             if (!err.statusCode) {
                 err.statusCode = 500;
+            }
+            if (!err.data) {
+                err.data = [{
+                    msg: "Internal Server Error"
+                }]
             }
             next(err);
         })
@@ -167,6 +191,9 @@ module.exports.teacher_login = (req, res, next) => {
             if (!user) {
                 const error = new Error("User not found Please register first");
                 error.statusCode = 404;
+                error.data = [{
+                    msg: "User not found Please register first"
+                }]
                 throw error;
             }
             else {
@@ -177,14 +204,18 @@ module.exports.teacher_login = (req, res, next) => {
             if (!same) {
                 const error = new Error("Wrong password");
                 error.statusCode = 401;
+                error.data = [{
+                    msg: "Wrong Password"
+                }]
                 throw error;
             } else {
                 const time = 24 * 60 * 60 * 1000;
                 const token = jwt.sign({
-                    email_id: email
+                    email_id: email,
+                    userType: "teacher"
                 }, "secret_key", { expiresIn: time });
                 res.status(201).json({
-                    Acces_Token: token,
+                    Access_Token: token,
                     message: "Login Teacher success"
                 })
             }
@@ -192,6 +223,11 @@ module.exports.teacher_login = (req, res, next) => {
         .catch(err => {
             if (!err.statusCode) {
                 err.statusCode = 500;
+            }
+            if (!err.data){
+                err.data = [{
+                    msg: "Internal Server Error"
+                }]
             }
             next(err);
         })

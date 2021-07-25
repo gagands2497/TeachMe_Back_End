@@ -4,30 +4,30 @@ const database = require('../database');
 
 const Course = database.define('Course', {
     course_id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
-        autoIncrement:true,
+        autoIncrement: true,
         primaryKey: true
     },
-    teacher_email: {
-        type: DataTypes.STRING,
+    email_id: {//email id of teacher
+        type: Sequelize.STRING,
         allowNull: false,
     },
     course_name: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
     course_topic: {
-        type: DataType.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
     description: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
     storage_link: {
-        type: DataTypes.STRING,
-        allowNull:false
+        type: Sequelize.STRING,
+        allowNull: false
     }
 });
 

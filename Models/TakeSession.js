@@ -2,17 +2,17 @@ const Sequelize = require('sequelize');
 
 const database = require('../database');
 
-const Session_enrolled = database.define('Session_enrolled', {
+const TakeSession = database.define('TakeSession', {
     student_email: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
         primaryKey: true
     },
     session_id: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
         primaryKey:true
     }
 });
 
-module.exports = Session_enrolled;
+module.exports = TakeSession;

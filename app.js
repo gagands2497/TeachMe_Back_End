@@ -6,7 +6,8 @@ const auth_route = require('./Routes/auth')
 const databaseINIT = require('./initDatabase');
 const cookieParser = require('cookie-parser');
 const teacherRoute = require('./Routes/teacher');
-
+const studentRoute = require('./Routes/student');
+const courseRoutes = require('./Routes/course')
 // Handling CORS 
 
 app.use((req, res, next) => {
@@ -38,13 +39,15 @@ app.get('/', (req, res) => {
 
 app.use('/auth', auth_route);
 app.use('/teacher', teacherRoute);
-
+app.use('/student', studentRoute);
+app.use('/course', courseRoutes);
 // error middleware
 
 
 app.use((error, req, res, next) => {
     const status = error.statusCode || 500;
     const message = error.message;
+    // console.log(error);
     res.status(status).json({
         message: message,
         errors: error.data
@@ -52,7 +55,8 @@ app.use((error, req, res, next) => {
 
 })
 
+
 app.listen(port, () => {
-    databaseINIT.init(false);
+    // databaseINIT.init();
     console.log("server is running on port number " + port);
 })

@@ -27,11 +27,12 @@ router.post('/student_signup',
         .trim()
         .not()
         .isEmpty()
-        .withMessage("name cannot be empty"),
-    body('ph_number')
-        .trim()
-        .isLength(10)
-        .withMessage("Phone number lenght must be exactly 10")
+        .withMessage("name cannot be empty")
+    //     ,
+    // body('ph_number')
+    //     .trim()
+    //     .isLength(10)
+    //     .withMessage("Phone number lenght must be exactly 10")
 
     , authController.student_signup)
 
@@ -54,7 +55,10 @@ router.post('/teacher_signup',
         .isLength({ min: 100 })
         .withMessage("Description should be min of 100 chars")
         .custom(val => {
-            if (val.length > 500) {
+            if (!val) {
+                return Promise.reject("Description cannot be empty");
+            }
+            else if (val.length > 500) {
                 return Promise.reject("Description must be of less than 500 charachters");
             } else {
                 return true;
@@ -69,11 +73,12 @@ router.post('/teacher_signup',
         .trim()
         .not()
         .isEmpty()
-        .withMessage("name cannot be empty"),
-    body('ph_number')
-        .trim()
-        .isLength(10)
-        .withMessage("Phone number lenght must be exactly 10")
+        .withMessage("name cannot be empty")
+        // ,
+    // body('ph_number')
+    //     .trim()
+    //     .isLength(10)
+    //     .withMessage("Phone number lenght must be exactly 10")
 
     , authController.teacher_signup)
 
@@ -81,7 +86,7 @@ router.post('/teacher_signup',
 
 
 router.post('/student_login',
-        
+
     body('email_id')
         .trim()
         .isEmail()

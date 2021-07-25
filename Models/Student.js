@@ -24,7 +24,7 @@ const Student = database.define('Student', {
     },
     ph_number: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     }
 });
 

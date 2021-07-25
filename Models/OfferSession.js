@@ -2,28 +2,28 @@ const Sequelize = require('sequelize');
 
 const database = require('../database');
 
-const Session_offered = database.define('Session_offered', {
+const OfferSession = database.define('OfferSession', {
     session_id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement : true
     },
     teacher_email: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
         primaryKey:true
     },
     topic_of_session: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
     // cost of session is per person per hour
     cost_of_session: {
-        type: DataTypes.DOUBLE,
+        type: Sequelize.DOUBLE,
         allowNull: false
     }
 });
 
-module.exports = Session_offered;
+module.exports = OfferSession;
 
 
