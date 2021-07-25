@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const teacherController = require('../Controller/teacher-Controller');
+const teacherController = require('../Controller/teacher-controller');
 const Middleware = require('../Middleware/Auth');
 const { body } = require('express-validator');
 
