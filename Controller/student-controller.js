@@ -28,7 +28,7 @@ module.exports.student_personal_profile = (req, res, next) => {
             }
             if (!err.data) {
                 err.data = [{
-                    msg: "Internal Server Error"
+                    msg: err.message ? err.message : "Internal Server Error"
                 }]
             }
             next(err);
@@ -68,7 +68,7 @@ module.exports.course_taken_history = (req, res, next) => {
             }
             if (!error.data) {
                 error.data = [{
-                    msg: "Internal Server Error"
+                    msg: err.message ? err.message : "Internal Server Error"
                 }]
             }
             next(error);
@@ -98,7 +98,7 @@ module.exports.take_course = (req, res, next) => {
                 }
                 if (!error.data) {
                     error.data = [{
-                        msg: "Internal Server Error"
+                        msg: err.message ? err.message : "Internal Server Error"
                     }]
                 }
                 next(error);
@@ -138,4 +138,41 @@ module.exports.enroll_session = (req, res, next) => {
                 next(error);
             })
     }
+}
+
+
+module.exports.update_data = (req, res, next) => {
+    if (!req.userId) {
+        const error = new Error('User not authenticated');
+        error.statusCode = 401;
+        throw error;
+    }
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const error = new Error("validation failed");
+        error.statusCode = 422;
+        error.data = errors.array();
+        throw error
+    }
+
+    user.update()
+        .then(data => {
+            res.status.json({
+                message: "Profile Updated Successfully"
+            })
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            if (!err.data) {
+                err.data = [{
+                    msg: err.message ? err.message : "Internal Server Error"
+                }]
+            }
+            next(err);
+        })
+
+
 }

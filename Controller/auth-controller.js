@@ -48,7 +48,7 @@ module.exports.student_signup = (req, res, next) => {
             }
             if (!err.data) {
                 err.data = [{
-                    msg: "Internal Server Error"
+                    msg: err.message ? err.message : "Internal Server Error"
                 }]
             }
             next(err);
@@ -102,7 +102,7 @@ module.exports.teacher_signup = (req, res, next) => {
             }
             if (!err.data) {
                 err.data = [{
-                    msg: "Internal Server Error"
+                    msg: err.message ? err.message : "Internal Server Error"
                 }]
             }
             next(err);
@@ -150,7 +150,7 @@ module.exports.student_login = (req, res, next) => {
                 const time = 24 * 60 * 60 * 1000;
                 const token = jwt.sign({
                     email_id: email,
-                    userType:"student"
+                    userType: "student"
                 }, "secret_key", { expiresIn: time });
                 res.status(201).json({
                     Access_Token: token,
@@ -164,7 +164,7 @@ module.exports.student_login = (req, res, next) => {
             }
             if (!err.data) {
                 err.data = [{
-                    msg: "Internal Server Error"
+                    msg: err.message ? err.message : "Internal Server Error"
                 }]
             }
             next(err);
@@ -224,9 +224,9 @@ module.exports.teacher_login = (req, res, next) => {
             if (!err.statusCode) {
                 err.statusCode = 500;
             }
-            if (!err.data){
+            if (!err.data) {
                 err.data = [{
-                    msg: "Internal Server Error"
+                    msg: err.message ? err.message : "Internal Server Error"
                 }]
             }
             next(err);

@@ -4,14 +4,15 @@ const Teacher = database.define('Teacher', {
     email_id: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        primaryKey: true
     },
-    teacher_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true
-    },
+    // teacher_id: {
+    //     type: Sequelize.INTEGER,
+    //     allowNull: false,
+    //     primaryKey: true,
+    //     autoIncrement: true
+    // },
     name: {
         type: Sequelize.STRING,
         allowNull: false

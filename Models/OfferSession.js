@@ -6,12 +6,12 @@ const OfferSession = database.define('OfferSession', {
     session_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement : true
+        autoIncrement: true
     },
-    teacher_email: {
+    email_id: {//email_id of teacher who is creating the course
         type: Sequelize.STRING,
         allowNull: false,
-        primaryKey:true
+        primaryKey: true
     },
     topic_of_session: {
         type: Sequelize.STRING,

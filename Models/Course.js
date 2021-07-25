@@ -11,7 +11,7 @@ const Course = database.define('Course', {
     },
     email_id: {//email id of teacher
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
     },
     course_name: {
         type: Sequelize.STRING,
