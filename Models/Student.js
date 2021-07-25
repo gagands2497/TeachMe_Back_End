@@ -22,6 +22,10 @@ const Student = database.define('Student', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    profile_url: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
     ph_number: {
         type: Sequelize.STRING,
         allowNull: true

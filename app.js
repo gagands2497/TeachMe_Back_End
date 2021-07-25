@@ -7,8 +7,30 @@ const databaseINIT = require('./initDatabase');
 const cookieParser = require('cookie-parser');
 const teacherRoute = require('./Routes/teacher');
 const studentRoute = require('./Routes/student');
-const courseRoutes = require('./Routes/course')
+const courseRoutes = require('./Routes/course');
+const multer = require('multer');
+const path = require('path');
 // Handling CORS 
+
+const fileStorage = multer.diskStorage({
+    destination: (req, res, cb) => {
+        // cb is for callback
+        // null is for indicating that the everything is good 
+        cb(null, path.join(__dirname, "Storage", "Images"));
+    },
+    filename: (req, file, cb) => {
+        cb(null, new Date().toISOString().replace(/:/g, "_") + "_" + file.originalname)
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/jpeg") {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+}
+
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*')
@@ -28,6 +50,23 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('profile_image'))
+
+// app.post('/', (req, res) => {
+//     // uploading testing of file upload
+//     if (!req.file) {
+//         const error = new Error("File is not an image");
+//         error.data = [{
+//             msg: "File is not an image"
+//         }]
+//         throw error;
+//     }
+//     res.json({
+//         image_url: req.file.path
+//     })
+// })
+
+
 
 app.get('/', (req, res) => {
     // send the documentation

@@ -1,6 +1,8 @@
 const Student = require('../Models/Student');
 const CourseTaken = require('../Models/CourseTaken');
 
+
+
 module.exports.student_personal_profile = (req, res, next) => {
     if (!req.userId) {
         const error = new Error('User not authenticated');
@@ -175,4 +177,43 @@ module.exports.update_data = (req, res, next) => {
         })
 
 
+}
+
+
+module.exports.upload_profile_image = (req, res, next) => {
+    const user = req.user;
+    if (!req.file) {
+        const error = new Error("File is not an image");
+        error.data = [{
+            msg: "File is not an image"
+        }]
+        throw error;
+    }
+    if (!user) {
+        const error = new Error("user not authenticated")
+        error.data = [{
+            msg: "user not authenticated"
+        }]
+        throw error;
+    }
+    else {
+        const file = req.file;
+        user.update({
+            profile_url: file.path
+        }).then(data => {
+            res.status(200).json({
+                message: "Image uploaded successfully"
+            })
+        }).catch(error => {
+            if (!error.statusCode) {
+                error.statusCode = 500;
+            }
+            if (!error.data) {
+                error.data = [{
+                    msg: error.message ? error.message : "Internal Server Error"
+                }]
+            }
+            next(error);
+        })
+    }
 }

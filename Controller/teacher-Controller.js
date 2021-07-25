@@ -143,3 +143,40 @@ module.exports.create_session = (req, res, next) => {
             next(err);
         })
 }
+
+module.exports.upload_profile_image = (req, res, next) => {
+    const user = req.user;
+    if (!user) {
+        const error = new Error("user not authenticated");
+        error.data = [{
+            msg: "user not authenticated"
+        }]
+        throw error;
+    }
+    const file = req.file;
+    if (!file) {
+        const error = new Error("File is not an Image");
+        error.data = [{
+            msg: "file is not an Image"
+        }]
+        throw error;
+    } else {
+        user.update({ profile_url: file.path })
+            .then(data => {
+                res.status(200).json({
+                    message: "Image Uploaded successfully"
+                })
+            })
+            .catch(error => {
+                if (!error.statusCode) {
+                    error.statusCode = 500;
+                }
+                if (!error.data) {
+                    error.data = [{
+                        msg: error.message ? error.message : "Internal Server Error"
+                    }]
+                }
+                next(error);
+            })
+    }
+}

@@ -10,6 +10,8 @@ router.post('/update_data', Middleware.isAuth, teacherController.update_data);
 
 router.get('/create_course', Middleware.isAuth, teacherController.create_course);
 
+router.post('/upload_profile_image', Middleware.isAuth, teacherController.upload_profile_image);
+
 router.post('/create_session',
     body('cost_of_session')
         .custom(val => {

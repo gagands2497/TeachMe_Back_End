@@ -9,5 +9,6 @@ router.get('/course_taken', Middleware.isAuth, studentController.course_taken_hi
 
 router.get('/take_course', Middleware.isAuth, studentController.take_course);
 
+router.post('/upload_profile_image', Middleware.isAuth, studentController.upload_profile_image);
 
 module.exports = router;
