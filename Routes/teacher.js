@@ -10,7 +10,7 @@ router.post('/create_course',
     body("course_name").
         custom(val => {
             if (val) {
-                if (val.length > 10) {
+                if (val.length > 5) {
                     return Promise.reject("course name must be at most 10 characters")
                 } else {
                     return Promise.resolve("validated course_name")
@@ -23,7 +23,7 @@ router.post('/create_course',
     body("course_topic")
         .custom(val => {
             if (val) {
-                if (val.length > 10) {
+                if (val.length > 5) {
                     return Promise.reject("Course topic must be at most 10 characters")
                 } else {
                     return Promise.resolve("validated Topic")
@@ -36,7 +36,7 @@ router.post('/create_course',
     body("description")
         .custom(val => {
             if (val) {
-                if (val.length > 30) {
+                if (val.length > 15) {
                     return Promise.reject("description must length 30")
                 } else if (val.length < 10) {
                     return Promise.reject("description must be of atleast length 10")

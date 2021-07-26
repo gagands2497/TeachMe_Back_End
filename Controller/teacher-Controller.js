@@ -44,7 +44,13 @@ module.exports.create_course = (req, res, next) => {
         error.statusCode = 401;
         throw error;
     }
-
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const error = new Error("validation failed");
+        error.statusCode = 422;
+        error.data = errors.array();
+        throw error
+    }
     const email = req.userId;
     const user = req.user;
 
