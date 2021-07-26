@@ -100,7 +100,7 @@ module.exports.update_data = (req, res, next) => {
     const file = req.file;
     user.update({
         ...req.body,
-        profile_url: file.path
+        profile_url: file ? file.path : ""
     })
         .then(data => {
             res.status(200).json({
