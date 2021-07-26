@@ -36,7 +36,7 @@ const Teacher = database.define('Teacher', {
     topic_of_live_courses: {
         type: Sequelize.STRING,
         allowNull: true,
-    },
+    }
 
 });
 
