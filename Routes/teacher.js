@@ -7,46 +7,20 @@ const { body } = require('express-validator');
 router.get('/personal_profile', Middleware.isAuth, teacherController.teacher_personal_profile);
 router.post('/update_data', Middleware.isAuth, teacherController.update_data);
 router.post('/create_course',
-    body("course_name").
-        custom(val => {
-            if (val) {
-                if (val.length > 5) {
-                    return Promise.reject("course name must be at most 10 characters")
-                } else {
-                    return Promise.resolve("validated course_name")
-                }
-            } else {
-                return Promise.reject("Course name cannot be empty")
-            }
-        })
+    body("course_name")
+        .trim()
+        .isLength({ min: 5 })
+        .withMessage("Course name must be of at least 5 characters")
     ,
     body("course_topic")
-        .custom(val => {
-            if (val) {
-                if (val.length > 5) {
-                    return Promise.reject("Course topic must be at most 10 characters")
-                } else {
-                    return Promise.resolve("validated Topic")
-                }
-            } else {
-                return Promsie.reject("Course topic cannot be empty")
-            }
-        })
+        .trim()
+        .isLength({ min: 5 })
+        .withMessage("Course topic must be of at least 5 characters")
     ,
     body("description")
-        .custom(val => {
-            if (val) {
-                if (val.length > 15) {
-                    return Promise.reject("description must length 30")
-                } else if (val.length < 10) {
-                    return Promise.reject("description must be of atleast length 10")
-                } else {
-                    return Promise.resolve("Validated description")
-                }
-            } else {
-                return Promise.reject("Description cannot be empty")
-            }
-        })
+        .trim()
+        .isLength({ min: 15, max: 30 })
+        .withMessage("Description must be of at least 15 characters and atmost 30 characters")
     ,
     Middleware.isAuth, teacherController.create_course);
 
