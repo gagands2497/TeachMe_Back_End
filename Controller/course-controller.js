@@ -35,4 +35,4 @@ module.exports.course_details = (req, res, next) => {
 }
 
 
-module.exports.
+// module.exports.
