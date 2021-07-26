@@ -100,7 +100,7 @@ module.exports.update_data = (req, res, next) => {
 
     user.update()
         .then(data => {
-            res.status.json({
+            res.status(200).json({
                 message: "Profile Updated Successfully"
             })
         })
