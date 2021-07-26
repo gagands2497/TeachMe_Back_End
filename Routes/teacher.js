@@ -12,7 +12,7 @@ router.post('/update_data',
             if (!val) {
                 return true;
             }
-            else if (val.length > 500 && val.length === 0) {
+            else if (val.length > 500 && val.length < 50) {
                 return Promise.reject("Description must be of less than 500 charachters and cannot be empty");
             } else {
                 return true;
