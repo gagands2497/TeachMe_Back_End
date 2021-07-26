@@ -80,7 +80,7 @@ module.exports.create_course = (req, res, next) => {
 
 }
 
-module.exports.update_data = (rea, res, next) => {
+module.exports.update_data = (req, res, next) => {
 
     if (!req.userId) {
         const error = new Error('User not authenticated');

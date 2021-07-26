@@ -19,8 +19,8 @@ router.post('/create_course',
     ,
     body("description")
         .trim()
-        .isLength({ min: 15, max: 30 })
-        .withMessage("Description must be of at least 15 characters and atmost 30 characters")
+        .isLength({ min: 15, max: 100 })
+        .withMessage("Description must be of at least 15 characters and atmost 100 characters")
     ,
     Middleware.isAuth, teacherController.create_course);
 
