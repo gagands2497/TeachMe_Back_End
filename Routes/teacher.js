@@ -5,7 +5,23 @@ const Middleware = require('../Middleware/Auth');
 const { body } = require('express-validator');
 
 router.get('/personal_profile', Middleware.isAuth, teacherController.teacher_personal_profile);
-router.post('/update_data', Middleware.isAuth, teacherController.update_data);
+router.post('/update_data',
+    body("description")
+        .trim()
+        .custom(val => {
+            if (!val) {
+                return true;
+            }
+            else if (val.length > 500 && val.length === 0) {
+                return Promise.reject("Description must be of less than 500 charachters and cannot be empty");
+            } else {
+                return true;
+            }
+        })
+    , Middleware.isAuth, teacherController.update_data);
+
+
+
 router.post('/create_course',
     body("course_name")
         .trim()
