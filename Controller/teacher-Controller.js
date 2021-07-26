@@ -98,7 +98,7 @@ module.exports.update_data = (req, res, next) => {
 
     const user = req.user;
 
-    user.update()
+    user.update(req.body)
         .then(data => {
             res.status(200).json({
                 message: "Profile Updated Successfully"
