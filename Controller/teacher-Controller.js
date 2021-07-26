@@ -96,6 +96,8 @@ module.exports.update_data = (req, res, next) => {
         throw error
     }
 
+    const user = req.user;
+
     user.update()
         .then(data => {
             res.status.json({
