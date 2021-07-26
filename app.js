@@ -12,11 +12,13 @@ const multer = require('multer');
 const path = require('path');
 // Handling CORS 
 
+app.use(express.static(path.join(__dirname, 'Storage', "Profile_Images")))
+
 const fileStorage = multer.diskStorage({
     destination: (req, res, cb) => {
         // cb is for callback
         // null is for indicating that the everything is good 
-        cb(null, path.join(__dirname, "Storage", "Images"));
+        cb(null, path.join(__dirname, "Storage", "Profile_Images"));
     },
     filename: (req, file, cb) => {
         cb(null, new Date().toISOString().replace(/:/g, "_") + "_" + file.originalname)
