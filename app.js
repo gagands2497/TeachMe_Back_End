@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
 const bodyParser = require('body-parser');
-const auth_route = require('./Routes/auth')
+const auth_route = require('./Routes/auth');
 const databaseINIT = require('./initDatabase');
 const cookieParser = require('cookie-parser');
 const teacherRoute = require('./Routes/teacher');
@@ -12,7 +12,14 @@ const multer = require('multer');
 const path = require('path');
 // Handling CORS 
 
-app.use(express.static(path.join(__dirname, 'Storage', "Profile_Images")))
+app.use(express.static(path.join(__dirname, 'Storage', 'Profile_Images')));
+
+app.get('/Storage/Profile_Images/', (req, res) => {
+    const file_name = req.query.image_name;
+    console.log(file_name);
+    res.sendFile(`${__dirname}/Storage/Profile_Images/${file_name}`);
+})
+
 
 const fileStorage = multer.diskStorage({
     destination: (req, res, cb) => {

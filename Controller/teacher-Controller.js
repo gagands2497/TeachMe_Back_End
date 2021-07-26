@@ -48,7 +48,13 @@ module.exports.create_course = (req, res, next) => {
     const email = req.userId;
     const user = req.user;
 
-    user.createCourse({})
+    user.createCourse({
+        course_name: req.body.course_name,
+        email_id: email,
+        course_topic: req.body.course_topic,
+        description: req.body.description,
+        storage_link: req.body.storage_link,
+    })
         .then(data => {
             res.status(200).json({
                 message: 'Course created successfully'
