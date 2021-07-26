@@ -97,8 +97,11 @@ module.exports.update_data = (req, res, next) => {
     }
 
     const user = req.user;
-
-    user.update(req.body)
+    const file = req.file;
+    user.update({
+        ...req.body,
+        profile_url: file.path
+    })
         .then(data => {
             res.status(200).json({
                 message: "Profile Updated Successfully"
