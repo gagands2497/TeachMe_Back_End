@@ -36,7 +36,7 @@ module.exports.course_details = (req, res, next) => {
 
 
 module.exports.search_courses = (req, res, next) => {
-    const course_topic = req.query.course_topic;
+    const course_topic = req.query.course_topic.trim();
     const pageNumber = req.query.pageNumber
 
     const coursename = `${course_topic}%`
@@ -51,10 +51,10 @@ module.exports.search_courses = (req, res, next) => {
     })
         .then(result => {
             if (result.length == 0) {
-                const error = new Error("NO MORE COURSES");
+                const error = new Error(`No more courses on ${course_topic}`);
                 error.statusCode = 404;
                 error.data = [{
-                    msg: error.message ? error.message : "NO MORE COURSES"
+                    msg: error.message ? error.message : `No more courses on ${course_topic}`
                 }]
                 throw error;
             } else {
