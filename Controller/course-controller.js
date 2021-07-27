@@ -37,7 +37,7 @@ module.exports.course_details = (req, res, next) => {
 
 module.exports.search_courses = (req, res, next) => {
     const course_topic = req.query.course_topic;
-    // const pageNumber = req.query.page_number
+    const pageNumber = req.query.pageNumber
 
     const coursename = `${course_topic}%`
     console.log(coursename)
