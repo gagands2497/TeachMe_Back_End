@@ -1,5 +1,5 @@
 const Course = require("../Models/Course");
-
+const sequelize = require('sequelize');
 
 module.exports.course_details = (req, res, next) => {
     const id = req.query.course_id;
@@ -35,4 +35,36 @@ module.exports.course_details = (req, res, next) => {
 }
 
 
-// module.exports.
+module.exports.search_courses = (req, res, next) => {
+    const course_topic = req.query.course_topic;
+    // const pageNumber = req.query.page_number
+
+    const coursename = `${course_topic}%`
+    console.log(coursename)
+    console.log("course_topic is " + course_topic);
+    Course.findAll({
+        where: {
+            course_topic: { [sequelize.Op.like]: `${course_topic}%` }
+        },
+        // offset: pageNumber * 10,
+        // limit: 10
+    })
+        .then(result => {
+            res.status(200).json({
+                message: "search work successfully",
+                data: result
+            })
+        })
+        .catch(error => {
+            if (!error.statusCode) {
+                error.statusCode = 500;
+            }
+            if (!error.data) {
+                error.data = [{
+                    msg: error.message ? error.message : "Internal Server Error"
+                }]
+            }
+            next(error)
+        })
+
+}
