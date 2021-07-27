@@ -51,10 +51,10 @@ module.exports.search_courses = (req, res, next) => {
     })
         .then(result => {
             if (result.length == 0) {
-                const error = new Error(`No more courses on ${course_topic}`);
+                const error = new Error(`No more courses of topic ${course_topic}`);
                 error.statusCode = 404;
                 error.data = [{
-                    msg: error.message ? error.message : `No more courses on ${course_topic}`
+                    msg: error.message ? error.message : `No more courses of topic ${course_topic}`
                 }]
                 throw error;
             } else {
