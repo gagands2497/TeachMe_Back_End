@@ -52,6 +52,7 @@ module.exports.search_courses = (req, res, next) => {
         .then(result => {
             if (result.length == 0) {
                 const error = new Error("NO MORE COURSES");
+                error.statusCode = 404;
                 error.data = [{
                     msg: error.message ? error.message : "NO MORE COURSES"
                 }]
