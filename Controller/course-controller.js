@@ -78,3 +78,33 @@ module.exports.search_courses = (req, res, next) => {
         })
 
 }
+
+
+module.exports.course_by_teacher = (req, res, next) => {
+
+    const email_id = req.query.email_id.trim();
+
+    Course.findAll({ where: { email_id: email_id } })
+        .then(data => {
+            if (data.length === 0) {
+                const error = new Error("No courses by this teacher")
+                error.statusCode = 404;
+                error.data = [{
+                    msg: error.message ? error.message : "No courses by this teacher"
+                }]
+                throw error;
+            }
+        })
+        .catch(error => {
+            if (!error.statusCode) {
+                error.statusCode = 500;
+            }
+            if (!error.data) {
+                error.data = [{
+                    msg: error.message ? error.message : "Internal Server Error"
+                }]
+            }
+            next(error);
+        })
+
+}
