@@ -50,17 +50,19 @@ module.exports.search_courses = (req, res, next) => {
         limit: 10
     })
         .then(result => {
-            if (!result) {
+            if (result.length == 0) {
                 const error = new Error("NO MORE COURSES");
                 error.data = [{
                     msg: error.message ? error.message : "NO MORE COURSES"
                 }]
                 throw error;
+            } else {
+                res.status(200).json({
+                    message: "search work successfully",
+                    data: result
+                })
             }
-            res.status(200).json({
-                message: "search work successfully",
-                data: result
-            })
+
         })
         .catch(error => {
             if (!error.statusCode) {
