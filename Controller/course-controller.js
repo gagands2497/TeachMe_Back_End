@@ -46,10 +46,17 @@ module.exports.search_courses = (req, res, next) => {
         where: {
             course_topic: { [sequelize.Op.like]: `${course_topic}%` }
         },
-        // offset: pageNumber * 10,
-        // limit: 10
+        offset: (pageNumber - 1) * 10,
+        limit: 10
     })
         .then(result => {
+            if (!result) {
+                const error = new Error("NO MORE COURSES");
+                error.data = [{
+                    msg: error.message ? error.message : "NO MORE COURSES"
+                }]
+                throw error;
+            }
             res.status(200).json({
                 message: "search work successfully",
                 data: result

@@ -20,8 +20,16 @@ module.exports.teacher_personal_profile = (req, res, next) => {
                 }]
                 throw error;
             } else {
+
                 res.status(200).json({
-                    userData: user
+                    userData: {
+                        email_id: user.email_id,
+                        name: user.name,
+                        description: user.description,
+                        profile_url: user.profile_url,
+                        created_at: user.created_at,
+                        ph_number : user.ph_number
+                    }
                 })
             }
         }).catch(err => {
